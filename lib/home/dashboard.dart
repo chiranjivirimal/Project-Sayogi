@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_sayogi/colors/appcolors.dart';
 import 'package:project_sayogi/home/aamdanikharchasite.dart';
-import 'package:project_sayogi/home/dashboardpage.dart';
-import 'package:project_sayogi/home/engineerpage.dart';
-import 'package:project_sayogi/home/profilepage.dart';
+import 'package:project_sayogi/home/profiledetailspage.dart';
+import 'package:project_sayogi/home/sitepage.dart';
+import 'package:project_sayogi/home/partiharupage.dart';
 import 'package:project_sayogi/home/sampadan_popup.dart';
 import 'package:project_sayogi/home/timeperiodpicker.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -1140,7 +1140,7 @@ class _DashboardState extends State<Dashboard> {
                                           children: [
                                             Text(
                                               'रु. ५,०००',
-                                              style: TextStyle(
+                                              style: GoogleFonts.poppins(
                                                 color: Color(0xFF10B981),
                                                 fontSize: 12,
                                               ),
@@ -1160,7 +1160,7 @@ class _DashboardState extends State<Dashboard> {
                                           children: [
                                             Text(
                                               'रु. ३,०००',
-                                              style: TextStyle(
+                                              style: GoogleFonts.poppins(
                                                 color: Color(0xFFEF4444),
                                                 fontSize: 12,
                                               ),
@@ -1180,7 +1180,7 @@ class _DashboardState extends State<Dashboard> {
                                           children: [
                                             Text(
                                               'रु. २,०००',
-                                              style: TextStyle(
+                                              style: GoogleFonts.poppins (
                                                 color: Color(0xFFEF4444),
                                                 fontSize: 12,
                                               ),
@@ -1214,92 +1214,95 @@ class _DashboardState extends State<Dashboard> {
       ),
 
       // ✅ Bottom Navigation Bar
-      bottomNavigationBar: Container(
-        width: 440,
-        height: 85,
-        decoration: BoxDecoration(
-          color: Color(0xFF186B97),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 6,
-              offset: Offset(0, 3),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          child: BottomNavigationBar(
-            backgroundColor: AppColors.secondary,
-            type: BottomNavigationBarType.fixed,
-            selectedFontSize: 0, // Prevent label spacing from affecting layout
-            unselectedFontSize: 0,
-            selectedIconTheme: IconThemeData(size: 28),
-            unselectedIconTheme: IconThemeData(size: 26),
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white,
-            currentIndex: currentIndex,
-            onTap: (index) {
-              setState(() {
-                currentIndex = index;
-              });
+    bottomNavigationBar: SizedBox(
+  width: 440,
+  height: 82, // final bar height
+  child: ClipRRect(
+    child: BottomNavigationBar(
+      backgroundColor: Colors.white,
+      type: BottomNavigationBarType.fixed,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      selectedFontSize: 0,
+      unselectedFontSize: 0,
+      currentIndex: currentIndex,
+      onTap: (index) {
+        setState(() => currentIndex = index);
 
-              if (index == 1) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => EngineerPage()),
-                );
-              } else if (index == 2) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Aamdanikharchasite()),
-                );
-              } else if (index == 3) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Profilepage()),
-                );
-              } else if (index == 4) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Dashboardpage()),
-                );
-              }
-            },
+        if (index == 1) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (_) => const Sitepage()));
+        } else if (index == 2) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (_) => const Aamdanikharchasite()));
+        } else if (index == 3) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => const Partiharupage()));
+        } else if (index == 4) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (_) => const ProfileDetailsPage()));
+        }
+      },
 
-            items: List.generate(5, (i) {
-              IconData icon =
-                  [
-                    Icons.home,
-                    Icons.engineering,
-                    Icons.bar_chart,
-                    Icons.person,
-                    Icons.dashboard,
-                  ][i];
+      // ---------- icons + labels -------------------------------------------
+      items: List.generate(5, (i) {
+        const imagePaths = [
+          'assets/homeg.jpeg',
+          'assets/site.png',
+          'assets/karobar.png',
+          'assets/partiharu.png',
+          'assets/maindash.png',
+        ];
 
-              return BottomNavigationBarItem(
-                icon: Container(
-                  alignment: Alignment.center,
-                  width: 57, // fixed width
-                  height: 44, // fixed height to avoid vertical movement
-                  decoration:
-                      currentIndex == i
-                          ? BoxDecoration(
-                            color: Colors.teal,
-                            shape: BoxShape.circle,
-                          )
-                          : null,
-                  child: Icon(
-                    icon,
-                    size: 32, // ensure size is consistent
-                    color: Colors.white,
+        const labels = [
+          'होम',
+          'साइट',
+          'कारोबार',
+          'पार्टीहरु',
+          'अरु',
+        ];
+
+        final bool isSelected = currentIndex == i;
+
+        return BottomNavigationBarItem(
+          label: '',
+          icon: SizedBox(
+            width: 72,
+            height: 56,              // safely inside 82‑px bar
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  imagePaths[i],
+                  height: 32,          // image height
+                  width: 32,           // image width
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  labels[i],
+                  style: GoogleFonts.poppins (
+                    fontSize: 12,fontWeight: FontWeight.w400,
+                    color: isSelected
+                        ? const Color(0xFF10B981) // highlight text only
+                        : const Color(0xFF555555),
                   ),
                 ),
-                label: "",
-              );
-            }),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
+      // ---------------------------------------------------------------------
+    ),
+  ),
+),
+
+
+
+
+
+
     );
   }
 }
