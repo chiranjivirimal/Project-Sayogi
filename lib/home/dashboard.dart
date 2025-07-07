@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_sayogi/colors/appcolors.dart';
 import 'package:project_sayogi/home/aamdanikharchasite.dart';
+import 'package:project_sayogi/home/notepage.dart';
+import 'package:project_sayogi/home/notificationpage.dart';
 import 'package:project_sayogi/home/profiledetailspage.dart';
 import 'package:project_sayogi/home/sitepage.dart';
 import 'package:project_sayogi/home/partiharupage.dart';
@@ -37,23 +39,27 @@ class _DashboardState extends State<Dashboard> {
 
   final List<Map<String, dynamic>> dashboardItems = [
     {
+      'asset': 'assets/incomehome.png',
       'amount': 'रु १०,०००',
       'label': 'आम्दानि(बैशाख)',
       'boxColor': Color(0x401AB189),
     },
     {
+      'asset': 'assets/expensehome.png',
       'amount': 'रु ५,०००',
       'label': 'खर्च (बैशाख)',
       'boxColor': Color(0xFFFAE6E7),
       'textColor': Color.fromARGB(255, 249, 7, 7),
     },
     {
+      'asset': 'assets/amountreceivehome.png',
       'amount': 'रु १५,०००',
       'label': 'लिन बाकि ',
       'boxColor': Color(0xFFFFFFFF),
       'textColor': Color.fromARGB(255, 15, 15, 15),
     },
     {
+      'asset': 'assets/amounttogivehome.png',
       'amount': 'रु ८,५००',
       'label': 'दिन बाकि ',
       'boxColor': Color(0xFFFFFFFF),
@@ -100,13 +106,61 @@ class _DashboardState extends State<Dashboard> {
                           Icon(Icons.keyboard_arrow_down, color: Colors.white),
                         ],
                       ),
-                      Row(
-                        children: [
-                          Icon(Icons.notifications, color: Colors.white),
-                          SizedBox(width: 20),
-                          Icon(Icons.note, color: Colors.white),
-                        ],
-                      ),
+                    
+                    Row(
+  children: [
+    // ——— Notification button ———
+    InkWell(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const Notepage()),
+      ),
+      customBorder: const CircleBorder(),              // match ripple to circle
+      child: Container(
+        height: 30,
+        width: 30,
+        padding: const EdgeInsets.all(4),              // inner spacing
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color(0xFFFAFAFA) ,                              // circle background
+        ),
+        child: Image.asset(
+          'assets/notetitle.png',
+          width: 22,
+          height: 22,
+          color: Colors.black,                         // tint if desired
+        ),
+      ),
+    ),
+
+    const SizedBox(width: 20),
+
+    // ——— Note button ———
+    InkWell(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const Notificationpage()),
+      ),
+      customBorder: const CircleBorder(),
+      child: Container(
+         height: 30,
+        width: 30,
+        padding: const EdgeInsets.all(4),
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color(0xFFFAFAFA),
+        ),
+        child: Image.asset(
+          'assets/notification1.png',
+          width: 22,
+          height: 22,
+          color: Colors.black,
+        ),
+      ),
+    ),
+  ],
+)
+
+
+
                     ],
                   ),
                 ],
@@ -228,11 +282,11 @@ class _DashboardState extends State<Dashboard> {
                               itemCount: dashboardItems.length,
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2, // एउटै पङ्क्तिमा 2 टाइल
+                                    crossAxisCount: 2, 
                                     mainAxisSpacing: 20,
                                     crossAxisSpacing: 20,
                                     mainAxisExtent:
-                                        150, // हरेक टाइल 150px अग्लो
+                                        150, 
                                   ),
                               itemBuilder: (context, index) {
                                 final item = dashboardItems[index];
@@ -250,21 +304,19 @@ class _DashboardState extends State<Dashboard> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(12),
                                     child: Column(
-                                      // ↙ अब Row होइन Column
+                                    
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        Icon(
-                                          // ⬆️  आइकन माथि
-                                          (Icons.attach_money),
+                                          Image.asset(
+      item['asset'],
+      width: 28,
+      height: 28,
+      fit: BoxFit.contain,
+    ),
 
-                                          // Dollar sign
-                                          size: 28,
-                                          color:
-                                              item['textColor'] ?? Colors.black,
-                                        ),
                                         const SizedBox(height: 12),
                                         Text(
                                           item['amount'],
@@ -294,7 +346,7 @@ class _DashboardState extends State<Dashboard> {
                           ),
                           SizedBox(height: 30),
 
-                          // Shortcut Section
+                          
                           Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal: 16,

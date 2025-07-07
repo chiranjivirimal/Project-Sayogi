@@ -35,3 +35,9 @@ flutter:
     - assets/maindash.png
     - assets/partiharu.png
     - assets/profilephoto.png
+    - assets/incomehome.png
+    - assets/expensehome.png
+    - assets/amountreceivehome.png
+    - assets/amounttogivehome.png
+    - assets/notification1.png
+    - assets/notetitle.png

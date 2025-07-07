@@ -80,7 +80,7 @@ class _SampadanMenuPopupState extends State<SampadanMenuPopup> {
                            SizedBox(height: 5),
                           Text(
                             item.label,
-                            style:TextStyle (fontSize: 12, color: Color(0xFF555555), fontWeight: FontWeight.bold),
+                            style: GoogleFonts.poppins(fontSize: 12, color: Color(0xFF555555), fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -105,11 +105,11 @@ class _SampadanMenuPopupState extends State<SampadanMenuPopup> {
                 TextButton.icon(
                   onPressed: _addItem,
                   icon:  Icon(Icons.add, color: Colors.black),
-                  label:  Text('थप्नुहोस', style: TextStyle(color: Colors.black)),
+                  label:  Text('थप्नुहोस', style: GoogleFonts.poppins(color: Colors.black)),
                 ),
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child:  Text('बन्द गर्नुहोस', style: TextStyle(color: Colors.black)),
+                  child:  Text('बन्द गर्नुहोस', style: GoogleFonts.poppins(color: Colors.black)),
                 ),
               ],
             ),

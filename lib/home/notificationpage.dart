@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Sitepage extends StatelessWidget {
-  const Sitepage({super.key});
+class Notificationpage extends StatelessWidget {
+  const Notificationpage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class Sitepage extends StatelessWidget {
                     Expanded(
                       child: Center(
                         child: Text(
-                          'साइटहरु ',
+                          'नोटिफिकेसन ',
                           style: GoogleFonts.poppins(
                             fontSize: 25,
                             fontWeight: FontWeight.w600,
