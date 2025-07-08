@@ -1,25 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:project_sayogi/home/dashboard.dart';          // pubspec.yaml मा google_fonts dependency थप्नुहोस्
+import 'package:http/http.dart' as http;
+import 'package:project_sayogi/home/dashboard.dart'; // pubspec.yaml मा google_fonts dependency थप्नुहोस्
 // (यदि माथिको ग्राफिक आइकन चाहिन्थ्यो भने: import 'package:font_awesome_flutter/font_awesome_flutter.dart';)
 
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'OTP Verification',
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        fontFamily: GoogleFonts.poppins().fontFamily,
-      ),
-      home: const OtpVerifyScreen(),
-    );
-  }
-
-
 class OtpVerifyScreen extends StatefulWidget {
-  const OtpVerifyScreen({super.key});
+  final String userId;
+  final String phone;
+  const OtpVerifyScreen({Key? key, required this.userId, required this.phone})
+    : super(key: key);
 
   @override
   State<OtpVerifyScreen> createState() => _OtpVerifyScreenState();
@@ -31,6 +22,36 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
   final _pin3 = TextEditingController();
   final _pin4 = TextEditingController();
 
+  // ✅ New method to verify OTP
+  Future<void> _verifyOtp(String otp) async {
+    final url = Uri.parse(
+      'https://7fcf-2400-1a00-bde0-6cc8-6d31-8c8-abef-9f68.ngrok-free.app/api/verify-otp',
+    );
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'user_id': widget.userId, 'otp': otp}),
+      );
+
+      if (response.statusCode == 200) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => Dashboard()),
+        );
+      } else {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('OTP मिलेन')));
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('सर्भर समस्या: $e')));
+    }
+  }
+
   // --- सानो helper: एउटै डिज़ाइनको OTP box ---
   Widget _buildOtpBox(TextEditingController controller) {
     return SizedBox(
@@ -41,10 +62,7 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
         maxLength: 1,
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
-        style: GoogleFonts.poppins(
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
-        ),
+        style: GoogleFonts.poppins(fontSize: 22, fontWeight: FontWeight.bold),
         decoration: InputDecoration(
           counterText: '',
           filled: true,
@@ -87,20 +105,19 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
                 // ------------ Illustration (placeholder stack) ------------
                 const SizedBox(height: 20),
 
-// 140 px उचाइको ठाउँमा एउटै चित्र
-SizedBox(
-  height: 141,
-  width: 196,
-  child: Center(
-    child: Image.asset(
-      'assets/verify.png', 
-      fit: BoxFit.contain,          
-    ),
-  ),
-),
+                // 140 px उचाइको ठाउँमा एउटै चित्र
+                SizedBox(
+                  height: 141,
+                  width: 196,
+                  child: Center(
+                    child: Image.asset(
+                      'assets/verify.png',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
 
-
-          SizedBox(height: 20,),      
+                SizedBox(height: 20),
                 // ---------------- Heading & Subtitle ----------------
                 Text(
                   'OTP प्रमाणीकरण',
@@ -112,10 +129,11 @@ SizedBox(
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'हामीले पठाएको कोड प्रविष्ट गर्नुहोस : +९८० ***२४८९',
+                  'हामीले पठाएको कोड प्रविष्ट गर्नुहोस : ${widget.phone}',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
-                    fontSize: 14,fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
                     color: const Color(0xFF212121),
                   ),
                 ),
@@ -144,63 +162,71 @@ SizedBox(
                 const SizedBox(height: 200),
 
                 // ---------------- Submit Button ----------------
-               GestureDetector(
-  onTap: () {
-    
-    Navigator.push(context, MaterialPageRoute(builder:(context)=>  Dashboard()));
-  },
-  child: Container(
-    width: 408,
-    height: 50,
-    alignment: Alignment.center,               // text बीचमा
-    decoration: BoxDecoration(
-      color: const Color(0xFF1AB189),          // पुरानै हरियो रङ
-      borderRadius: BorderRadius.circular(12),
-    
-    ),
-    child: Text(
-      'पेस गर्नुहोस्',
-      style: GoogleFonts.poppins(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-        color: Colors.white,
-      ),
-    ),
-  ),
-),
- SizedBox(height: 10,),
+                // ✅ SUBMIT OTP
+                InkWell(
+                  onTap: () {
+                    final otp =
+                        _pin1.text + _pin2.text + _pin3.text + _pin4.text;
+                    if (otp.length == 4) {
+                      _verifyOtp(otp);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('OTP पूरा गर्नुहोस्')),
+                      );
+                    }
+                  },
+                  child: Container(
+                    width: 408,
+                    height: 50,
+                    alignment: Alignment.center, // text बीचमा
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF1AB189), // पुरानै हरियो रङ
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      'पेस गर्नुहोस्',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
 
-
-                 GestureDetector(
-  onTap: () {
-    
-    Navigator.push(context, MaterialPageRoute(builder:(context)=>  Dashboard()));
-  },
-  child: Container(
-    width: 408,
-    height: 50,
-    alignment: Alignment.center,               // text बीचमा
-    decoration: BoxDecoration(
-      color: Colors.white10,          // पुरानै हरियो रङ
-      borderRadius: BorderRadius.circular(12),
-         border: Border.all(                    // किनार (border)
-      color: Color(0xFF1AB189),            // तपाईंलाई मनपर्ने रङ
-      width: 2,                            // मोटाइ (px)
-    ),
-    
-    ),
-    child: Text(
-      'कोड पुन : पठाउनुहोस ',
-      style: GoogleFonts.poppins(
-        fontSize: 20,
-        fontWeight: FontWeight.w600,
-        color: Color(0xFF212121),
-      ),
-    ),
-  ),
-),
-
-            
+                Container(
+                  width: double.infinity,
+                  height: 50,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.white10,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Color(0xFF1AB189), width: 2),
+                  ),
+                  child: Container(
+                    width: 408,
+                    height: 50,
+                    alignment: Alignment.center, // text बीचमा
+                    decoration: BoxDecoration(
+                      color: Colors.white10, // पुरानै हरियो रङ
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        // किनार (border)
+                        color: Color(0xFF1AB189), // तपाईंलाई मनपर्ने रङ
+                        width: 2, // मोटाइ (px)
+                      ),
+                    ),
+                    child: Text(
+                      'कोड पुन : पठाउनुहोस ',
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF212121),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
