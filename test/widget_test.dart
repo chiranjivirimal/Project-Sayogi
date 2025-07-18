@@ -1,30 +1,26 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:project_sayogi/main.dart';
+import 'package:project_sayogi/repositories/auth_repository.dart';
+import 'package:flutter/material.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('LoginScreen shows welcome text and login button', (WidgetTester tester) async {
+    // Create the AuthRepository instance (can be a mock for real tests)
+    final authRepository = AuthRepository(baseUrl: 'http://127.0.0.1:8000/api');
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Build the app with authRepository
+    await tester.pumpWidget(MyApp(authRepository: authRepository));
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Wait for frames to settle
+    await tester.pumpAndSettle();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Check if the welcome text is found
+    expect(find.text('स्वागत छ'), findsOneWidget);
+
+    // Check if the login button is found
+    expect(find.text('लगइन'), findsOneWidget);
+
+    // Check if the phone number input field is present
+    expect(find.byType(TextFormField), findsOneWidget);
   });
 }
