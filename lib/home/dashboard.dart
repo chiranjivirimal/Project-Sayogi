@@ -52,20 +52,7 @@ class _DashboardState extends State<Dashboard> {
       'boxColor': Color(0xFFFAE6E7),
       'textColor': Color.fromARGB(255, 249, 7, 7),
     },
-    {
-      'asset': 'assets/amountreceivehome.png',
-      'amount': 'रु १५,०००',
-      'label': 'लिन बाकि ',
-      'boxColor': Color(0xFFFFFFFF),
-      'textColor': Color.fromARGB(255, 15, 15, 15),
-    },
-    {
-      'asset': 'assets/amounttogivehome.png',
-      'amount': 'रु ८,५००',
-      'label': 'दिन बाकि ',
-      'boxColor': Color(0xFFFFFFFF),
-      'textColor': Color.fromARGB(255, 20, 19, 19),
-    },
+   
   ];
 
   @override
@@ -75,13 +62,13 @@ class _DashboardState extends State<Dashboard> {
       body: SafeArea(
         child: Column(
           children: [
-            // ✅ Fixed Header Section
+            
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Top Row
+                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -103,39 +90,38 @@ class _DashboardState extends State<Dashboard> {
                               color: Color(0xFFFFFFFF),
                             ),
                           ),
-                          SizedBox(width: 4),
-                          Icon(Icons.keyboard_arrow_down, color: Colors.white),
+                         
                         ],
                       ),
                     
                     Row(
   children: [
-    // ——— Notification button ———
+    
     InkWell(
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const Notepage()),
       ),
-      customBorder: const CircleBorder(),              // match ripple to circle
+      customBorder: const CircleBorder(),              
       child: Container(
         height: 30,
         width: 30,
-        padding: const EdgeInsets.all(4),              // inner spacing
+        padding: const EdgeInsets.all(4),              
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
-          color: Color(0xFFFAFAFA) ,                              // circle background
+          color: Color(0xFFFAFAFA) ,                              
         ),
         child: Image.asset(
           'assets/notetitle.png',
           width: 22,
           height: 22,
-          color: Colors.black,                         // tint if desired
+          color: Colors.black,                         
         ),
       ),
     ),
 
     const SizedBox(width: 20),
 
-    // ——— Note button ———
+    
     InkWell(
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const Notificationpage()),
@@ -168,13 +154,13 @@ class _DashboardState extends State<Dashboard> {
               ),
             ),
 
-            // ✅ Scrollable Content Below Header
+            
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // the two text just below the top bar
+                    
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 30),
                       child: Column(
@@ -274,7 +260,7 @@ class _DashboardState extends State<Dashboard> {
                             ),
                           ),
 
-                          // GridView Section
+                        
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16),
                             child: GridView.builder(
@@ -375,13 +361,21 @@ class _DashboardState extends State<Dashboard> {
                                   },
                                   child: Row(
                                     children: [
-                                      Icon(
-                                        Icons.edit_document,
-                                        color: Color(0xFF1AB189),
-                                      ),
+                                    GestureDetector(
+  onTap: () {
+    // Your edit action here
+  },
+  child: Image.asset(
+    'assets/edit.png',
+    width: 24,
+    height: 24,
+    color: Color(0xFF1AB189),
+  ),
+),
+
                                       SizedBox(width: 5),
                                       Text(
-                                        'सम्पादन मेनु ',
+                                        'एडिट मेनु ',
                                         style: GoogleFonts.poppins(
                                           color: AppColors.primary,
                                           fontSize: 19,
@@ -480,11 +474,18 @@ class _DashboardState extends State<Dashboard> {
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Icon(
-                                          Icons.filter_2,
-                                          color: Colors.white,
-                                          size: 14,
-                                        ),
+                                       GestureDetector(
+  onTap: () {
+    
+  },
+  child: Image.asset(
+    'assets/filtericon1.png',
+    width: 13,
+    height: 15,
+    color: Color(0xFFFFFFFF),
+  ),
+),
+
                                         SizedBox(width: 6),
                                         Text(
                                           'छान्नुहोस',
@@ -613,7 +614,7 @@ class _DashboardState extends State<Dashboard> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                // Left Column - All left texts
+                                
                                 Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -646,7 +647,7 @@ class _DashboardState extends State<Dashboard> {
                                   ],
                                 ),
 
-                                // Right Column - All right texts
+                              
                                 Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -844,7 +845,7 @@ class _DashboardState extends State<Dashboard> {
                                   ],
                                 ),
 
-                                // Right Column - All right texts
+                              
                                 Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -910,7 +911,7 @@ class _DashboardState extends State<Dashboard> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                // Left Column - All left texts
+                                
                                 Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -943,7 +944,7 @@ class _DashboardState extends State<Dashboard> {
                                   ],
                                 ),
 
-                                // Right Column - All right texts
+                              
                                 Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -1033,10 +1034,10 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                       const SizedBox(
                                         width: 3,
-                                      ), // space between text & icon
+                                      ), 
                                       const Icon(
                                         Icons
-                                            .arrow_right_alt, // right-arrow icon
+                                            .arrow_right_alt, 
                                         size: 18,
                                         color: Color(0xFFFFFFFF),
                                       ),
@@ -1047,7 +1048,7 @@ class _DashboardState extends State<Dashboard> {
                             ],
                           ),
 
-                          // Income/Expense Section
+                          
                           SizedBox(height: 10),
                           Padding(
                             padding: EdgeInsets.symmetric(
@@ -1093,9 +1094,9 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                     ),
 
-                                    // ...
+                               
                                     Container(
-                                      // You can drop this wrapper if you prefer to style via ButtonStyleData only.
+                                     
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 12,
                                       ),
@@ -1112,7 +1113,6 @@ class _DashboardState extends State<Dashboard> {
                                           isExpanded: true,
                                           value: selectedMonth,
 
-                                          // ─── MENU ITEMS ───
                                           items:
                                               months
                                                   .map(
@@ -1126,15 +1126,15 @@ class _DashboardState extends State<Dashboard> {
                                                 () => selectedMonth = value!,
                                               ),
 
-                                          // ─── NEW STYLE OBJECTS (v 2.x) ───
+                                         
                                           buttonStyleData: const ButtonStyleData(
                                             height: 40,
                                             width: 120,
                                             padding:
                                                 EdgeInsets
-                                                    .zero, // Container already has padding
+                                                    .zero, 
                                             decoration:
-                                                BoxDecoration(), // Use outer Container’s decoration
+                                                BoxDecoration(), 
                                           ),
 
                                           dropdownStyleData: DropdownStyleData(
@@ -1143,7 +1143,7 @@ class _DashboardState extends State<Dashboard> {
                                             offset: const Offset(
                                               0,
                                               0,
-                                            ), // same as old dropdownOffset
+                                            ), 
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -1266,10 +1266,10 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
 
-      // ✅ Bottom Navigation Bar
+      
     bottomNavigationBar: SizedBox(
   width: 440,
-  height: 82, // final bar height
+  height: 82, 
   child: ClipRRect(
     child: BottomNavigationBar(
       backgroundColor: Colors.white,
@@ -1297,7 +1297,7 @@ class _DashboardState extends State<Dashboard> {
         }
       },
 
-      // ---------- icons + labels -------------------------------------------
+      
       items: List.generate(5, (i) {
         const imagePaths = [
           'assets/homeg.jpeg',
@@ -1321,14 +1321,14 @@ class _DashboardState extends State<Dashboard> {
           label: '',
           icon: SizedBox(
             width: 72,
-            height: 56,              // safely inside 82‑px bar
+            height: 56,             
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
                   imagePaths[i],
-                  height: 32,          // image height
-                  width: 32,           // image width
+                  height: 32,          
+                  width: 32,           
                   fit: BoxFit.contain,
                 ),
                 const SizedBox(height: 4),
@@ -1337,7 +1337,7 @@ class _DashboardState extends State<Dashboard> {
                   style: GoogleFonts.poppins (
                     fontSize: 12,fontWeight: FontWeight.w400,
                     color: isSelected
-                        ? const Color(0xFF10B981) // highlight text only
+                        ? const Color(0xFF10B981) 
                         : const Color(0xFF555555),
                   ),
                 ),
@@ -1346,7 +1346,7 @@ class _DashboardState extends State<Dashboard> {
           ),
         );
       }),
-      // ---------------------------------------------------------------------
+    
     ),
   ),
 ),
